@@ -44,4 +44,10 @@ echo "Creating GitHub repository '$REPO_NAME' ($VISIBILITY)..."
 gh repo create "$REPO_NAME" --"$VISIBILITY" --source=. --remote=origin --push
 
 echo
-printf 'Repository ready: '\ngh repo view --web 2>/dev/null || true
+if repo_url=$(gh repo view --json url -q '.url' 2>/dev/null); then
+  echo "Repository ready: $repo_url"
+else
+  echo "Repository ready."
+fi
+
+gh repo view --web 2>/dev/null || true
